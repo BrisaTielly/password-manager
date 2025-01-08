@@ -1,6 +1,6 @@
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.Base64;
 
 public class GerenciadorSenhas {
     private static HashMap<String, String> senhas = new HashMap<>();
@@ -55,5 +55,30 @@ public class GerenciadorSenhas {
         senhas.put(servico, senhaCriptografada);
         
         System.out.println("Senha armazenada com sucesso!");
+    }
+    private static void buscarSenha() {
+        System.out.print("Digite o nome do serviço: ");
+        String servico = scanner.nextLine();
+        
+        if (senhas.containsKey(servico)) {
+            String senhaCriptografada = senhas.get(servico);
+            // Descriptografar a senha
+            String senhaOriginal = new String(Base64.getDecoder().decode(senhaCriptografada));
+            System.out.println("Senha: " + senhaOriginal);
+        } else {
+            System.out.println("Serviço não encontrado!");
+        }
+    }
+
+    private static void listarServicos() {
+        if (senhas.isEmpty()) {
+            System.out.println("Nenhuma senha armazenada!");
+            return;
+        }
+
+        System.out.println("\nServiços cadastrados:");
+        for (String servico : senhas.keySet()) {
+            System.out.println("- " + servico);
+        }
     }
 }
